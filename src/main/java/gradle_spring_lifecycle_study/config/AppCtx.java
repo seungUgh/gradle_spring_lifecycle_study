@@ -1,58 +1,17 @@
 package gradle_spring_lifecycle_study.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import gradle_spring_lifecycle_study.spring.ChangePasswordSerivce;
-import gradle_spring_lifecycle_study.spring.MemberDao;
-import gradle_spring_lifecycle_study.spring.MemberInfoPrinter;
-import gradle_spring_lifecycle_study.spring.MemberListPrinter;
-import gradle_spring_lifecycle_study.spring.MemberPrinter;
-import gradle_spring_lifecycle_study.spring.MemberRegisterService;
-import gradle_spring_lifecycle_study.spring.VersionPrinter;
+import gradle_spring_lifecycle_study.spring.Client2;
 
 @Configuration
+@ComponentScan(basePackages = {"gradle_spring_lifecycle_study.spring"})
 public class AppCtx {
-	@Bean
-	public MemberDao memberDao() {
-		return new MemberDao();
-	}
 	
-	@Bean
-	public MemberRegisterService memberRegSvc() {
-		return new MemberRegisterService(memberDao());
-	}
-	
-	@Bean
-	public ChangePasswordSerivce changPwdSvc() {
-		ChangePasswordSerivce pwdSvc = new ChangePasswordSerivce();
-		pwdSvc.setMemberDao(memberDao());
-		return pwdSvc;
-	}
-	
-	@Bean
-	public MemberPrinter memberPrinter() {
-		return new MemberPrinter();
-	}
-	
-	@Bean
-	public MemberListPrinter listPrinter() {
-		return new MemberListPrinter(memberDao(), memberPrinter());
-	}
-	
-	@Bean
-	public MemberInfoPrinter infoPrinter() {
-		MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
-		infoPrinter.setMemberDao(memberDao());
-		infoPrinter.setPrinter(memberPrinter());
-		return infoPrinter;
-	}
-	
-	@Bean
-	public VersionPrinter versionPrinter() {
-		VersionPrinter versionPrinter = new VersionPrinter();
-		versionPrinter.setMajorVersion(5);
-		versionPrinter.setMinoVersion(0);
-		return versionPrinter;
+	@Bean(initMethod = "connect", destroyMethod="close")
+	public Client2 client2() {
+		return new Client2();
 	}
 }

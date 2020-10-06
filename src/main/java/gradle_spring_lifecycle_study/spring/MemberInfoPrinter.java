@@ -1,38 +1,30 @@
 package gradle_spring_lifecycle_study.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemberInfoPrinter {
-//	private MemberDao memDao;
-//	private MemberPrinter printer;
-	
-	@Autowired
-	private MemberDao memDao;
-	@Autowired
+	private MemberDao memberDao;
 	private MemberPrinter printer;
-	
+
 	public void printMemberInfo(String email) {
-		Member member = memDao.selectByEmail(email);
-		if(member == null) {
-			System.out.println("데이터 없음\n");
+		Member member = memberDao.selectByEmail(email);
+		if (member == null) {
+			System.out.println("데이터 없음");
 			return;
 		}
 		printer.print(member);
 		System.out.println();
-
-		
 	}
 
+	@Autowired
 	public void setMemberDao(MemberDao memberDao) {
-		this.memDao = memberDao;
+		this.memberDao = memberDao;
 	}
 
+	@Autowired
 	public void setPrinter(MemberPrinter printer) {
 		this.printer = printer;
 	}
-
-	
-	
 }

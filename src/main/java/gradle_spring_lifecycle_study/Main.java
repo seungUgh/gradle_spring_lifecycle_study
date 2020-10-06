@@ -1,15 +1,23 @@
 package gradle_spring_lifecycle_study;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import gradle_spring_lifecycle_study.config.AppCtx;
+import gradle_spring_lifecycle_study.spring.Client;
+import gradle_spring_lifecycle_study.spring.Client2;
 
 public class Main {
 	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(AppContext.class);
-		//try(GenericApplicationContext ctx = AnnotationConfigApplicationContext(AppContext.class);
-		Greeter g = ctx.getBean("greeter", Greeter.class);
-		String msg = g.greet("스프링5");
-		System.out.println(msg);
-		ctx.close();
+		try(AbstractApplicationContext ctx= new AnnotationConfigApplicationContext(AppCtx.class)){
+			Client client= ctx.getBean(Client.class);
+			client.setHost("host");
+			client.send();
+			
+			Client2 client2 = ctx.getBean(Client2.class);
+			client2.setHost("host2");
+			client2.send();
+		}
+		//컨테이너 종료(ctx.close()) ->try catch문 종료 
 	}
 }

@@ -9,7 +9,13 @@ public class Member {
 	private String name;
 	private LocalDateTime registerDateTime;
 	
-	public Member() {
+	
+	
+	public Member(String email, String password, String name, LocalDateTime registerDateTime) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.registerDateTime = registerDateTime;
 	}
 
 	public Member(int id, String email, String password, String name, LocalDateTime registerDateTime) {
